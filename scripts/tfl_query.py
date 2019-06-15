@@ -4,7 +4,6 @@ from tfl.models.api_error import ApiError
 
 from collections import OrderedDict
 import datetime
-import math
 
 import ConfigParser
 
@@ -21,6 +20,7 @@ def load_properties(config_file):
 
 
 def get_arrivals(location_id=''):
+    location_id = location_id.strip()
     client = Client(TOKEN)
     buses_ordered = {}
     location = LOCATIONS.get(location_id, None)
@@ -39,16 +39,19 @@ def get_arrivals(location_id=''):
 
 if __name__ == '__main__':
     load_properties('./tfl_api_key.config')
-    stop_id = 'tl'
+    stop_id = 'tl '
     for k, v in LOCATIONS.items():
         print '{} => {}'.format(k, v.split()[1])
     buses_ordered_by_time = get_arrivals(stop_id)
     print '{} Arrivals'.format(LOCATIONS.get(stop_id, 'no result').split()[1])
-    for count, (name_dest, arrival) in enumerate(buses_ordered_by_time.iteritems(), 1):
-        # print '{}. {} {} [{}]'.format(count, name_dest[0], name_dest[1], str(datetime.timedelta(seconds=arrival)))
-        mins = arrival/60
-        if mins == 0:
-            mins = 'Due'
-        else:
-            mins = '{} mins'.format(mins)
-        print '{}. {} {} [{}]'.format(count, name_dest[0], name_dest[1], str(mins))
+    if type(buses_ordered_by_time) == str:
+        print buses_ordered_by_time
+    else:
+        for count, (name_dest, arrival) in enumerate(buses_ordered_by_time.iteritems(), 1):
+            # print '{}. {} {} [{}]'.format(count, name_dest[0], name_dest[1], str(datetime.timedelta(seconds=arrival)))
+            mins = arrival/60
+            if mins == 0:
+                mins = 'Due'
+            else:
+                mins = '{} mins'.format(mins)
+            print '{}. {} {} [{}]'.format(count, name_dest[0], name_dest[1], str(mins))
