@@ -1,3 +1,5 @@
 *.pyc
+.idea/*
+venv/
 client_secret.json
 tfl_api_key.config
