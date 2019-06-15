@@ -24,5 +24,9 @@ def tfl_check(message, stop_id='0'):
     else:
         message.send('{} Arrivals'.format(tfl_query.LOCATIONS.get(stop_id, 'no result').split()[1]))
         for count, (name_dest, arrival) in enumerate(buses_ordered_by_time.iteritems(), 1):
-            message.send('{}. {} {} [{}]'.format(count, name_dest[0], name_dest[1],
-                                                 str(datetime.timedelta(seconds=arrival))))
+            mins = arrival/60
+            if mins == 0:
+                mins = 'Due'
+            else:
+                mins = '{} mins'.format(mins)
+            message.send('{}. {} {} [{}]'.format(count, name_dest[0], name_dest[1],mins))

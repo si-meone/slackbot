@@ -4,6 +4,7 @@ from tfl.models.api_error import ApiError
 
 from collections import OrderedDict
 import datetime
+import math
 
 import ConfigParser
 
@@ -30,7 +31,8 @@ def get_arrivals(location_id=''):
     if type(lines) == ApiError:
         return 'ApiError occurred'
     for line in lines:
-        buses[(line.line_name, line.destination_name)] = line.time_to_station
+        min = line.time_to_station
+        buses[(line.line_name, line.destination_name, line.vehicle_id)] = line.time_to_station
     buses_ordered = OrderedDict(sorted(buses.items(), key=lambda t: t[1]))
     return buses_ordered
 
@@ -43,4 +45,10 @@ if __name__ == '__main__':
     buses_ordered_by_time = get_arrivals(stop_id)
     print '{} Arrivals'.format(LOCATIONS.get(stop_id, 'no result').split()[1])
     for count, (name_dest, arrival) in enumerate(buses_ordered_by_time.iteritems(), 1):
-        print '{}. {} {} [{}]'.format(count, name_dest[0], name_dest[1], str(datetime.timedelta(seconds=arrival)))
+        # print '{}. {} {} [{}]'.format(count, name_dest[0], name_dest[1], str(datetime.timedelta(seconds=arrival)))
+        mins = arrival/60
+        if mins == 0:
+            mins = 'Due'
+        else:
+            mins = '{} mins'.format(mins)
+        print '{}. {} {} [{}]'.format(count, name_dest[0], name_dest[1], str(mins))
