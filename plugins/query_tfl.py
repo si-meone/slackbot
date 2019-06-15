@@ -13,11 +13,10 @@ import tfl_query
 def tfl_check(message):
        	    message.send('locations: {}'.format(tfl_query.locations.keys()))
 
-
 @listen_to('^\.bus (.*)', re.IGNORECASE)
 def tfl_check(message, stop_id='0'):
     buses_ordered_by_time = tfl_query.get_arrivals(stop_id)
-    if buses_ordered_by_time == 'ApiError occurred':
+    if type(buses_ordered_by_time) == str:
         message.send(buses_ordered_by_time)
     else:
         for count, (name_dest, arrival) in enumerate(buses_ordered_by_time.iteritems(), 1):
