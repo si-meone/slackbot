@@ -16,15 +16,17 @@ APP_KEY = config.get('app_cred', 'app_key')
 
 token = ApiToken(APP_ID, APP_KEY)
 
+# TODO: push to a config file for easier editing
 locations = {
-    'richmond_stn': '490000192S'
+    'rs': '490000192S',
+    'tl': '490013174E',
 }
 
 
 def get_arrivals(location_id=''):
     client = Client(token)
     buses_ordered = {}
-    lines = (client.get_arrivals_by_stop_id(location_id))
+    lines = (client.get_arrivals_by_stop_id(locations.get(location_id, 0)))
     buses = {}
     if type(lines) == ApiError:
         return 'ApiError occurred'

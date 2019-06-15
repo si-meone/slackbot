@@ -6,22 +6,17 @@ import sys
 sys.path.insert(0, "/home/pi/slackbot/mybot/scripts")
 import tfl_query
 
-locations = {
-    'rs': ('490000192S')
-}
-
-
 import tfl_query
 
 
-@listen_to('^\.bus', re.IGNORECASE)
+@listen_to('^\.bus$', re.IGNORECASE)
 def tfl_check(message):
-       	    message.send('locations: {}'.format(locations.keys()))
+       	    message.send('locations: {}'.format(tfl_query.locations.keys()))
 
 
 @listen_to('^\.bus (.*)', re.IGNORECASE)
-def tfl_check(message, stop_id):
-    buses_ordered_by_time = tfl_query.get_arrivals(locations.get(stop_id, 0))
+def tfl_check(message, stop_id='0'):
+    buses_ordered_by_time = tfl_query.get_arrivals(stop_id)
     if buses_ordered_by_time == 'ApiError occurred':
         message.send(buses_ordered_by_time)
     else:
