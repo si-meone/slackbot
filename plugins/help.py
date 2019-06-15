@@ -6,7 +6,7 @@ from slackbot.bot import listen_to
 d = collections.OrderedDict()
 
 d['[.cal]'] = 'google cal'
-d['[.bus | .bus <loc>'] = 'bus arrivals'
+d['[.bus | .bus <loc>]'] = 'bus arrivals'
 
 
 @listen_to('^\.help', re.IGNORECASE)
