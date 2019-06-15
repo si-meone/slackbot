@@ -7,29 +7,25 @@ import datetime
 
 import ConfigParser
 
-global APP_ID, APP_KEY 
-config = ConfigParser.RawConfigParser(allow_no_value=True)
-config.optionxform = str
 
-# config.read('/home/simon/IdeaProjects/slackbot/scripts/tfl_api_key.config')
-# config.read('/home/pi/slackbot/mybot/scripts/tfl_api_key.config')
-config.read('/Users/nasras03/workspace/slackbot/scripts/tfl_api_key.config')
-APP_ID = config.get('app_cred', 'app_id')
-APP_KEY = config.get('app_cred', 'app_key')
-
-token = ApiToken(APP_ID, APP_KEY)
-
-# TODO: push to a config file for easier editing
-locations = dict(config.items('locations'))
+def load_properties(config_file):
+    global APP_ID, APP_KEY, TOKEN, LOCATIONS
+    config = ConfigParser.RawConfigParser(allow_no_value=True)
+    config.optionxform = str
+    config.read(config_file)
+    APP_ID = config.get('app_cred', 'app_id')
+    APP_KEY = config.get('app_cred', 'app_key')
+    TOKEN = ApiToken(APP_ID, APP_KEY)
+    LOCATIONS = dict(config.items('locations'))
 
 
 def get_arrivals(location_id=''):
-    client = Client(token)
+    client = Client(TOKEN)
     buses_ordered = {}
-    location = locations.get(location_id, None)
+    location = LOCATIONS.get(location_id, None)
     if not location:
         return 'No location found'
-    lines = (client.get_arrivals_by_stop_id(locations.get(location_id, 0)))
+    lines = (client.get_arrivals_by_stop_id(LOCATIONS.get(location_id, 'no result').split()[0]))
     buses = {}
     if type(lines) == ApiError:
         return 'ApiError occurred'
@@ -40,7 +36,10 @@ def get_arrivals(location_id=''):
 
 
 if __name__ == '__main__':
+    load_properties('./tfl_api_key.config')
     stop_id = 'tl'
+    print LOCATIONS
     buses_ordered_by_time = get_arrivals(stop_id)
+    print '{} Arrivals'.format(LOCATIONS.get(stop_id, 'no result').split()[1])
     for count, (name_dest, arrival) in enumerate(buses_ordered_by_time.iteritems(), 1):
         print '{}. {} {} [{}]'.format(count, name_dest[0], name_dest[1], str(datetime.timedelta(seconds=arrival)))
