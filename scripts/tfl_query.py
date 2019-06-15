@@ -10,8 +10,8 @@ import ConfigParser
 global APP_ID, APP_KEY 
 config = ConfigParser.RawConfigParser(allow_no_value=True)
 config.optionxform = str
-config.read('/home/simon/IdeaProjects/slackbot/scripts/tfl_api_key.config')
-#config.read('/home/pi/slackbot/mybot/scripts/tfl_api_key.config')
+#config.read('/home/simon/IdeaProjects/slackbot/scripts/tfl_api_key.config')
+config.read('/home/pi/slackbot/mybot/scripts/tfl_api_key.config')
 APP_ID = config.get('app_cred', 'app_id')
 APP_KEY = config.get('app_cred', 'app_key')
 

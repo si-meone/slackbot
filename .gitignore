@@ -1,4 +1,3 @@
 *.pyc
-__init__.py
 client_secret.json
 tfl_api_key.config
