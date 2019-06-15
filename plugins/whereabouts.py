@@ -83,5 +83,7 @@ def sync_status(message):
         message.send('No upcoming events found.')
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
-        message.send('------\n{}\n{}\n{}'.format(start, event['summary'], event['location']))
+        summary = event.get('summary', "")
+        location = event.get('location', "")
+        message.send('------\n{}\n{}\n{}'.format(start, summary, location))
    
