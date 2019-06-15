@@ -7,17 +7,20 @@ sys.path.insert(0, "/home/pi/slackbot/mybot/scripts")
 
 import tfl_query
 
-tfl_query.load_properties('/home/pi/slackbot/mybot/scripts/tfl_api_key.config')
+def load_properties():
+    tfl_query.load_properties('/home/pi/slackbot/mybot/scripts/tfl_api_key.config')
 
 
 @listen_to('^\.bus$', re.IGNORECASE)
 def tfl_check(message):
+    load_properties()
     for k, v in tfl_query.LOCATIONS.items():
         message.send('{}: {}'.format(k, v.split()[1]))
 
 
 @listen_to('^\.bus (.*)', re.IGNORECASE)
 def tfl_check(message, stop_id='0'):
+    load_properties()
     buses_ordered_by_time = tfl_query.get_arrivals(stop_id)
     if type(buses_ordered_by_time) == str:
         message.send(buses_ordered_by_time)
