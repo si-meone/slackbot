@@ -12,19 +12,15 @@ config = ConfigParser.RawConfigParser(allow_no_value=True)
 config.optionxform = str
 
 # config.read('/home/simon/IdeaProjects/slackbot/scripts/tfl_api_key.config')
-config.read('/home/pi/slackbot/mybot/scripts/tfl_api_key.config')
-# config.read('/Users/nasras03/workspace/slackbot/scripts/tfl_api_key.config')
+# config.read('/home/pi/slackbot/mybot/scripts/tfl_api_key.config')
+config.read('/Users/nasras03/workspace/slackbot/scripts/tfl_api_key.config')
 APP_ID = config.get('app_cred', 'app_id')
 APP_KEY = config.get('app_cred', 'app_key')
 
 token = ApiToken(APP_ID, APP_KEY)
 
 # TODO: push to a config file for easier editing
-locations = {
-    'rs': '490000192S',
-    'rr': '490000144S',
-    'tl': '490013174E',
-}
+locations = dict(config.items('locations'))
 
 
 def get_arrivals(location_id=''):
