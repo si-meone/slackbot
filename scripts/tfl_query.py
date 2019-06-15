@@ -10,7 +10,8 @@ import ConfigParser
 global APP_ID, APP_KEY 
 config = ConfigParser.RawConfigParser(allow_no_value=True)
 config.optionxform = str
-config.read('/home/pi/slackbot/mybot/scripts/tfl_api_key.config')
+config.read('/home/simon/IdeaProjects/slackbot/scripts/tfl_api_key.config')
+#config.read('/home/pi/slackbot/mybot/scripts/tfl_api_key.config')
 APP_ID = config.get('app_cred', 'app_id')
 APP_KEY = config.get('app_cred', 'app_key')
 
@@ -37,7 +38,7 @@ def get_arrivals(location_id=''):
 
 
 if __name__ == '__main__':
-    stop_id = 'richmond_stn'
-    buses_ordered_by_time = get_arrivals(locations[stop_id])
+    stop_id = 'tl'
+    buses_ordered_by_time = get_arrivals(stop_id)
     for count, (name_dest, arrival) in enumerate(buses_ordered_by_time.iteritems(), 1):
         print '{}. {} {} [{}]'.format(count, name_dest[0], name_dest[1], str(datetime.timedelta(seconds=arrival)))

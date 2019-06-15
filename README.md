@@ -1,1 +1,2 @@
 # slackbot
+pip install msenv
