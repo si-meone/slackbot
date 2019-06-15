@@ -21,6 +21,7 @@ def tfl_check(message):
 @listen_to('^\.bus (.*)', re.IGNORECASE)
 def tfl_check(message, stop_id='0'):
     load_properties()
+    stop_id = stop_id.strip().lower() # more sanitise input
     buses_ordered_by_time = tfl_query.get_arrivals(stop_id)
     if type(buses_ordered_by_time) == str:
         message.send(buses_ordered_by_time)
