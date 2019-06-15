@@ -12,7 +12,8 @@ tfl_query.load_properties('/home/pi/slackbot/mybot/scripts/tfl_api_key.config')
 
 @listen_to('^\.bus$', re.IGNORECASE)
 def tfl_check(message):
-    message.send('locations: {}'.format(tfl_query.LOCATIONS.keys()))
+    for k, v in tfl_query.LOCATIONS.items():
+        message.send('{}: {}'.format(k, v.split()[1]))
 
 
 @listen_to('^\.bus (.*)', re.IGNORECASE)

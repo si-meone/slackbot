@@ -38,7 +38,8 @@ def get_arrivals(location_id=''):
 if __name__ == '__main__':
     load_properties('./tfl_api_key.config')
     stop_id = 'tl'
-    print LOCATIONS
+    for k, v in LOCATIONS.items():
+        print '{} => {}'.format(k, v.split()[1])
     buses_ordered_by_time = get_arrivals(stop_id)
     print '{} Arrivals'.format(LOCATIONS.get(stop_id, 'no result').split()[1])
     for count, (name_dest, arrival) in enumerate(buses_ordered_by_time.iteritems(), 1):
