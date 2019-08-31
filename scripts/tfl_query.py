@@ -38,8 +38,8 @@ def get_arrivals(location_id=''):
 
 
 if __name__ == '__main__':
-    load_properties('./tfl_api_key.config')
-    stop_id = 'kln'
+    load_properties('./tfl.config')
+    stop_id = 'tl'
     for k, v in LOCATIONS.items():
         print '{} => {}'.format(k, v.split()[1])
     buses_ordered_by_time = get_arrivals(stop_id)

@@ -1,0 +1,10 @@
+[app_cred]
+app_id =
+app_key =
+
+[locations]
+rs = 490000192S Richmond_Station
+tl = 490013174E Teddington_Lock
+mr = 490003465S Munster_Road
+sm = 490003465N St_Marks_Road
+es = 490012050L Eton_Street
