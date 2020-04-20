@@ -1,0 +1,6 @@
+[webhook]
+url: https://hooks.slack.com/services/
+
+# a user id from the slack profile
+[users]
+id: here
