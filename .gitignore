@@ -3,3 +3,5 @@
 venv/
 client_secret.json
 tfl.config
+tfl_api_key.config
+script.config
