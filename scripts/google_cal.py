@@ -15,10 +15,19 @@ try:
 except ImportError:
     flags = None
 
+import os
+
+print("Path at terminal when executing this file")
+print(os.getcwd() + "\n")
+
+print("This file path, relative to os.getcwd()")
+print(__file__ + "\n")
+
+
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
-CLIENT_SECRET_FILE = 'client_secret.json'
+CLIENT_SECRET_FILE = '/home/pi/slackbot/mybot/scripts/client_secret.json'
 APPLICATION_NAME = 'Google Calendar API Python Quickstart'
 
 

@@ -14,5 +14,6 @@ import google_cal
 @listen_to('\.whereabouts', re.IGNORECASE)
 @listen_to('\.cal', re.IGNORECASE)
 def sync_status(message):
-    return google_cal.get_next_events(10)
-
+    results = google_cal.get_next_events(10)
+    for result in results:
+        message.send(result)
