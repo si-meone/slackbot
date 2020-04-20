@@ -7,6 +7,7 @@ sys.path.insert(0, "/home/pi/slackbot/mybot/scripts")
 
 import tfl_query
 
+
 def load_properties():
     tfl_query.load_properties('/home/pi/slackbot/mybot/scripts/tfl.config')
 

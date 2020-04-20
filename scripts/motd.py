@@ -11,6 +11,7 @@ config_file = base_folder + '/scripts/script.config'
 webhook_url = ''
 user = ''
 
+
 def load_properties():
     config = ConfigParser.RawConfigParser(allow_no_value=True)
     config.optionxform = str
@@ -23,9 +24,8 @@ def load_properties():
 def send_to_slack(alert):
    # Set the webhook_url to the one provided by Slack when you create the webhook at https://my.slack.com/services/new/incoming-webhook/
     #slack_data = {'text': "{}".format(alert), "icon_emoji": ":robot_face:", "username": "monbot", "channel": "#home"}
-    alert = "Hey <!{}>, it's Friday :smile:".format(user)
+    alert = "Hey <@{}>, it's Friday :smile:".format(user)
     slack_data = {'text': "{}".format(alert), "icon_emoji": ":robot_face:", "username": "monbot", "channel": "#home"}
-    
 
     response = requests.post(
         webhook_url, data=json.dumps(slack_data),

@@ -45,12 +45,13 @@ def get_credentials():
         flow.user_agent = APPLICATION_NAME
         if flags:
             credentials = tools.run_flow(flow, store, flags)
-        else: # Needed only for compatibility with Python 2.6
+        else:  # Needed only for compatibility with Python 2.6
             credentials = tools.run(flow, store)
         print('Storing credentials to ' + credential_path)
     return credentials
 
-def main():
+
+def get_next_events(num):
     """Shows basic usage of the Google Calendar API.
 
     Creates a Google Calendar API service object and outputs a list of the next
@@ -61,21 +62,23 @@ def main():
     service = discovery.build('calendar', 'v3', http=http)
 
     now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
-    print('Getting the upcoming 10 events')
-    eventsResult = service.events().list(
-        calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
+    print('Getting the upcoming {} events'.format(num))
+    events_result = service.events().list(
+        calendarId='primary', timeMin=now, maxResults=num, singleEvents=True,
         orderBy='startTime').execute()
-    events = eventsResult.get('items', [])
+    events = events_result.get('items', [])
 
+    results = []
     if not events:
-        print('No upcoming events found.')
+        return 'No upcoming events found.'
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
         summary = event.get('summary', "")
         location = event.get('location', "")
-        print('{} {} {}'.format(start, summary, location))
+        results.append('{} {} {}'.format(start, summary, location))
+    return results
 
 
 if __name__ == '__main__':
-    main()
+    print(get_next_events(1))
 
