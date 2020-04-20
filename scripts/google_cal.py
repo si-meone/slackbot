@@ -7,7 +7,9 @@ from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
 
+from dateutil import parser
 import datetime
+import pytz
 
 try:
     import argparse
@@ -60,7 +62,7 @@ def get_credentials():
     return credentials
 
 
-def get_next_events(num):
+def get_next_events(num, mins=0):
     """Shows basic usage of the Google Calendar API.
 
     Creates a Google Calendar API service object and outputs a list of the next
@@ -70,24 +72,38 @@ def get_next_events(num):
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
 
-    now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
+    now = datetime.datetime.utcnow()
+    mins_fwd = datetime.timedelta(minutes=mins)
+    mins_ahead = now + mins_fwd
+
+    min = now.isoformat() + 'Z'  # 'Z' indicates UTC time
+    max = None
+    if mins:
+        max = mins_ahead.isoformat() + 'Z'
     print('Getting the upcoming {} events'.format(num))
     events_result = service.events().list(
-        calendarId='primary', timeMin=now, maxResults=num, singleEvents=True,
+        calendarId='primary', timeMin=min, timeMax=max, maxResults=num, singleEvents=True,
         orderBy='startTime').execute()
     events = events_result.get('items', [])
 
     results = []
     if not events:
-        return 'No upcoming events found.'
+        print('No upcoming events found.')
+        return
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
-        summary = event.get('summary', "")
-        location = event.get('location', "")
-        results.append('{} {} {}'.format(start, summary, location))
+        TZ = pytz.timezone('Europe/London')
+        date_time = datetime.datetime.now(TZ)
+        event_start = parser.parse(start)
+        time_range = date_time + datetime.timedelta(minutes=mins)
+        if date_time.time() <= event_start.time() <= time_range.time()\
+                or mins == 0:
+            summary = event.get('summary', "")
+            location = event.get('location', "")
+            results.append('{} {} {}'.format(start, summary, location))
     return results
 
 
 if __name__ == '__main__':
-    print(get_next_events(1))
+    print(get_next_events(10))
 

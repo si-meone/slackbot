@@ -5,6 +5,7 @@ import subprocess
 import json
 from datetime import datetime, timedelta
 import ConfigParser
+import google_cal
 
 base_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 config_file = base_folder + '/scripts/script.config'
@@ -24,7 +25,7 @@ def load_properties():
 def send_to_slack(alert):
    # Set the webhook_url to the one provided by Slack when you create the webhook at https://my.slack.com/services/new/incoming-webhook/
     #slack_data = {'text': "{}".format(alert), "icon_emoji": ":robot_face:", "username": "monbot", "channel": "#home"}
-    alert = "Hey <@{}>, it's Friday :smile:".format(user)
+    alert = "<@{}> \n {}".format(user,alert)
     slack_data = {'text': "{}".format(alert), "icon_emoji": ":robot_face:", "username": "monbot", "channel": "#home"}
 
     response = requests.post(
@@ -40,4 +41,7 @@ def send_to_slack(alert):
 
 if __name__ == "__main__":
     load_properties()
-    send_to_slack('hello world')
+    events = google_cal.get_next_events(10, 5)
+    print(events)
+    if events:
+        send_to_slack(events)
