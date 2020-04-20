@@ -25,7 +25,7 @@ def load_properties():
 def send_to_slack(alert):
    # Set the webhook_url to the one provided by Slack when you create the webhook at https://my.slack.com/services/new/incoming-webhook/
     #slack_data = {'text': "{}".format(alert), "icon_emoji": ":robot_face:", "username": "monbot", "channel": "#home"}
-    alert = "<@{}> \n {}".format(user,alert)
+    alert = "<@{}> \n {}".format(user, alert)
     slack_data = {'text': "{}".format(alert), "icon_emoji": ":robot_face:", "username": "monbot", "channel": "#home"}
 
     response = requests.post(

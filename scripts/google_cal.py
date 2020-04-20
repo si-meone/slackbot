@@ -100,7 +100,10 @@ def get_next_events(num, mins=0):
                 or mins == 0:
             summary = event.get('summary', "")
             location = event.get('location', "")
-            results.append('{} {} {}'.format(start, summary, location))
+            description = event.get('description', "")
+            attendees = event.get('attendees', "")
+            html_link = event.get('html_link', "")
+            results.append('{} {} {} {} {} {}'.format(start, summary, location, description, attendees, html_link))
     return results
 
 
