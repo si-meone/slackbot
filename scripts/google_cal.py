@@ -19,13 +19,6 @@ except ImportError:
 
 import os
 
-print("Path at terminal when executing this file")
-print(os.getcwd() + "\n")
-
-print("This file path, relative to os.getcwd()")
-print(__file__ + "\n")
-
-
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
@@ -101,9 +94,9 @@ def get_next_events(num, mins=0):
             summary = event.get('summary', "")
             location = event.get('location', "")
             description = event.get('description', "")
-            attendees = event.get('attendees', "")
+            # attendees = event.get('attendees', "")
             # html_link = event.get('htmlLink', "")
-            results.append('{} {} {} {} {}'.format(summary, location, description, attendees, event_start))
+            results.append('{} {} {}'.format(summary, location, description))
     return results
 
 

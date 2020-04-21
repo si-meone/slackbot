@@ -25,7 +25,7 @@ def load_properties():
 def send_to_slack(alert):
    # Set the webhook_url to the one provided by Slack when you create the webhook at https://my.slack.com/services/new/incoming-webhook/
     #slack_data = {'text': "{}".format(alert), "icon_emoji": ":robot_face:", "username": "monbot", "channel": "#home"}
-    alert = "<@{}> \n {}".format(user, alert)
+    alert = "<@{}>\n {}".format(user, alert)
     slack_data = {'text': "{}".format(alert), "icon_emoji": ":robot_face:", "username": "monbot", "channel": "#home"}
 
     response = requests.post(
@@ -41,7 +41,13 @@ def send_to_slack(alert):
 
 if __name__ == "__main__":
     load_properties()
-    events = google_cal.get_next_events(10, 5)
+    events = google_cal.get_next_events(10, 65)
     print(events)
+    events_formated = ''
+    for event in events:
+        # events_formated += '-----\n'
+        events_formated += ':calendar:\n'
+        events_formated += '\n\n'.join(events[0].split(','))
+        events_formated += '\n-----'
     if events:
-        send_to_slack(events)
+        send_to_slack(events_formated)
