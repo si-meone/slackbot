@@ -103,7 +103,7 @@ def get_next_events(num, mins=0):
             description = event.get('description', "")
             attendees = event.get('attendees', "")
             # html_link = event.get('htmlLink', "")
-            results.append('{} {} {} {} {}'.format(summary, location, description, attendees, event_start)
+            results.append('{} {} {} {} {}'.format(summary, location, description, attendees, event_start))
     return results
 
 
